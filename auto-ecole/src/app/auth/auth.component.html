@@ -1,0 +1,44 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <img 
+      src="assets/images/stopautoecolepng.png" 
+      alt="Logo Stop Autoécole" 
+      class="auth-logo" 
+    />
+    <form class="auth-form" (ngSubmit)="onSubmit()">
+      <h2>Connexion à votre espace</h2>
+      <p class="form-description">
+        Connectez-vous pour accéder à vos informations et gérer votre Ecole.
+      </p>
+      <div class="form-group">
+        <label for="username">Nom d'utilisateur</label>
+        <input
+          type="text"
+          id="username"
+          placeholder="Entrez votre nom d'utilisateur"
+          [(ngModel)]="username"
+          name="username"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Entrez votre mot de passe"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
+      </div>
+      <button type="submit" class="auth-button">Se connecter</button>
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      <!-- <p class="auth-footer">
+        Vous n'avez pas de compte ? <a href="#">Inscrivez-vous</a>
+      </p> -->
+    </form>
+  </div>
+</div>

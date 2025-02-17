@@ -1,0 +1,182 @@
+<div class="container-fluid mt-4">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <p class="text-muted">
+        Auto-Ecole: <strong>{{ firstName }} {{ lastName }}</strong>
+      </p>
+    </div>
+    <button
+    class="btn btn-sm btn-outline-secondary d-flex align-items-center"
+    (click)="goBack()"
+  >
+    <i class="fas fa-arrow-left me-2"></i> Retour
+  </button>
+  </div>
+
+  <br />
+
+  <!-- Informations sur le client -->
+  <div class="client-info text-center">
+    <h3>{{ client?.nom }} {{ client?.prenom }}</h3>
+    <div class="client-summary">
+      <div class="summary-item">
+        <h5>
+          <strong
+            >Nombre des Heures:
+            <span class="h5">{{
+              nbHeurCount !== null ? nbHeurCount : "0"
+            }}</span></strong
+          >
+        </h5>
+      </div>
+      <div class="summary-item">
+        <h5>
+          <strong>Montant total payé : <span class="h5">{{sumMontants !== null ? sumMontants : "0"}}
+          </span></strong>
+        </h5>
+      </div>
+    </div>
+    <!-- Boutons d'action -->
+    <div class="d-flex justify-content-start mb-3">
+      <button
+        mat-raised-button
+        color="primary"
+        class="custom-button custom-spacing"
+        (click)="openAddSeanceModal(client.id)"
+      >
+        <mat-icon>add_circle</mat-icon> Ajouter une séance
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        class="custom-button custom-spacing"
+        (click)="openAddPaiementModal(client.id)"
+      >
+        <mat-icon>payment</mat-icon> Ajouter paiement
+      </button>
+      <button
+        mat-raised-button
+        color="warn"
+        class="custom-button custom-spacing"
+        (click)="openAddExamenModal(client.id)"
+      >
+        <mat-icon>event</mat-icon> Ajouter date examen
+      </button>
+    </div>
+  </div>
+
+  <br />
+
+  <div class="table-responsive">
+    <div class="row">
+      <!-- Tableau 1: N.H et Date de la séance -->
+      <div class="col-md-4">
+        <table class="table table-bordered table-hover w-100">
+          <thead class="thead-dark">
+            <tr>
+              <th>N.H</th>
+              <th>Date de la séance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="!seances.content.length">
+              <td colspan="3">Aucune séance disponible.</td>
+            </tr>
+            <tr *ngFor="let seance of seances.content">
+              <td>{{ seance.nombreHeure }}</td>
+              <td>{{ seance.date | date : "yyyy-MM-dd" }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Pagination -->
+        <div class="pagination d-flex justify-content-center mt-4">
+          <button
+            class="btn btn-secondary mx-2"
+            (click)="onPageChange(currentPage - 1)"
+            [disabled]="currentPage === 0"
+          >
+            Précédent
+          </button>
+          <span class="align-self-center"
+            >Page {{ currentPage + 1 }} sur {{ seances?.totalPages }}</span
+          >
+          <button
+            class="btn btn-secondary mx-2"
+            (click)="onPageChange(currentPage + 1)"
+            [disabled]="currentPage + 1 >= seances.totalPages"
+          >
+            Suivant
+          </button>
+        </div>
+      </div>
+
+      <!-- Tableau 2: Date de paiement et Montant payé -->
+      <div class="col-md-4">
+        <table class="table table-bordered table-hover w-100">
+          <thead class="thead-dark">
+            <tr>
+              <th>Date de paiement</th>
+              <th>Montant payé</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="!paiements.content.length">
+              <td colspan="3">Aucune séance disponible.</td>
+            </tr>
+            <tr *ngFor="let paiement of paiements.content">
+              <td>{{ paiement.datePaiement | date : "yyyy-MM-dd" }}</td>
+              <td>{{ paiement.montant }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Pagination -->
+        <div class="pagination d-flex justify-content-center mt-4">
+          <button
+            class="btn btn-secondary mx-2"
+            (click)="onPageChangePaiment(currentPagep - 1)"
+            [disabled]="currentPagep === 0"
+          >
+            Précédent
+          </button>
+          <span class="align-self-center"
+            >Page {{ currentPagep + 1 }} sur {{ paiements?.totalPages }}</span
+          >
+          <button
+            class="btn btn-secondary mx-2"
+            (click)="onPageChangePaiment(currentPagep + 1)"
+            [disabled]="currentPagep + 1 >= paiements.totalPages"
+          >
+            Suivant
+          </button>
+        </div>
+      </div>
+
+      <!-- Tableau 3: Date Examen -->
+      <div class="col-md-4">
+        <table class="table table-bordered table-hover w-100">
+          <thead class="thead-dark">
+            <tr>
+              <th>Date Examen</th>
+              <th>Informations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Affiche un message si aucune séance n'est disponible -->
+            <tr *ngIf="!seances.content.length">
+              <td colspan="2">Aucune séance disponible.</td>
+            </tr>
+            <!-- Parcourt les séances -->
+            <tr *ngFor="let examen of examens.content">
+              <td>{{ examen.dateExamen | date : "yyyy-MM-dd" }}</td>
+              <td>
+                <div><strong>Numlist :</strong> {{ examen.numList }}</div>
+                <div><strong>Convocation :</strong> {{ examen.convation }}</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
